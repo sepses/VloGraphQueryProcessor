@@ -1,0 +1,17 @@
+PREFIX cl: <https://w3id.org/sepses/vocab/log/coreLog#>
+PREFIX sa: <https://w3id.org/sepses/vocab/log/snort-alert#>
+PREFIX sr: <http://w3id.org/sepses/vocab/rule/snortRule#>
+PREFIX cve: <http://w3id.org/sepses/vocab/ref/cve#>
+PREFIX cvss: <http://w3id.org/sepses/vocab/ref/cvss#>
+
+SELECT ?s ?timestamp ?message ?sid ?cve ?score WHERE {
+ ?s   cl:timestamp   ?timestamp.
+ ?s   cl:message   ?message.
+ ?s   sa:signatureId ?sid.
+ ?sid  sr:hasRuleOption ?ro.
+ ?ro sr:hasCVEReference ?cve.
+ ?rev cve:hasCVSS2BaseMetric ?cbm.
+?cbm cvss:baseScore ?score.
+	 
+}			
+LIMIT 3

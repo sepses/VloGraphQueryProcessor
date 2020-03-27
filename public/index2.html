@@ -1,0 +1,440 @@
+<html>
+
+<head>
+  <title>Virtual Log Graph Query Processor</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="http://rdf.js.org/comunica-browser/versions/1/packages/actor-init-sparql/comunica-browser.js"></script>
+
+
+</head>
+<style type="text/css">
+textarea {
+ width: 600px;
+ height: 250px;
+ background-color: white;
+ font-size: 1.2em;
+ font-family: Courier New;
+ border: 1px solid black;
+}
+</style>
+<body>
+  <h1>Virtual Log Graph Query Processor</h1>
+  <table>
+<!--Host Option-->
+<tr><td>
+  Choose Host</td><td>: 
+    <div id="chooseHost"></div>
+    </td></tr>
+<!--Background Knowledge Option-->
+
+<tr><td>
+	Choose Bg-Knowledge</td><td>: 
+		<input type="checkbox" name="bgk_tpf" id="dbpedia_tpf" value="https://fragments.dbpedia.org/2016-04/en">
+		<label for="dbpedia_tpf">DBPedia 2016 (TPF)</label>
+		<input type="checkbox" name="bgk_tpf" id="csgk_tpf" value="http://ldf-server.sepses.ifs.tuwien.ac.at/sepses-cyber/en">
+		<label for="csgk_tpf">CSGK (TPF)</label>
+		<input type="checkbox" name="bgk" id="dbpedia" value="http://dbpedia.org/sparql" >
+	<label for="dbpedia">DBPedia Live</label>
+  <input type="checkbox" name="bgk" id="csgk" value="https://sepses.ifs.tuwien.ac.at/sparql">
+	<label for="CSGK">CSGK</label>
+
+    </td></tr>
+  <!-- <tr><td>Pick a time</td><td>: <select name="picktime">
+    <option value="1h">Last 1 hour</option>
+    <option value="2h">Last 3 hours</option>
+    <option value="6h">Last 6 hours</option>
+    <option value="12h">Last 12 hours</option>
+    <option value="24h">Last 24 hours</option>
+</select> </td></tr><!-->
+<tr><td>Range of Time</td><td>: Start Time <input type="text" id="startTime" value="Dec 30 23:50:04">  End Time <input type="endTime" id="endTime" value="Dec 31 01:03:46"> </td></tr>
+</br>
+<tr><td>Pick a Query</td><td>: 
+	<select id="queryString">
+		<option selected name="q1" value='PREFIX cl: <https://w3id.org/sepses/vocab/log/coreLog#>
+PREFIX auth: <https://w3id.org/sepses/vocab/log/authLog#>
+SELECT ?s ?timestamp ?message ?prog  WHERE {
+ ?s   cl:message   ?message.
+ ?s   auth:programName   ?prog.
+ ?s   cl:timestamp   ?timestamp.		
+FILTER regex(?message,"Received")
+}			
+LIMIT 50'>(Authlog) Received Authentication</option>
+<option  name="q2" value='PREFIX cl: <https://w3id.org/sepses/vocab/log/coreLog#>
+PREFIX apache: <https://w3id.org/sepses/vocab/log/apacheLog#>
+SELECT ?s ?timestamp ?client ?verb ?request WHERE {
+ ?s   apache:hasClient   ?client.
+ ?s   apache:hasRequestVerb   ?verb.
+ ?s   apache:hasRequest   ?request.
+ ?s   cl:timestamp   ?timestamp.
+FILTER regex(?verb,"GET")
+	}			
+	LIMIT 50'>(ApacheLog) Get from apache log</option>
+<option  name="q4" value='PREFIX cl: <https://w3id.org/sepses/vocab/log/coreLog#>
+PREFIX sa: <https://w3id.org/sepses/vocab/log/snort-alert#>
+PREFIX sr: <http://w3id.org/sepses/vocab/rule/snortRule#>
+PREFIX cve: <http://w3id.org/sepses/vocab/ref/cve#>
+PREFIX cvss: <http://w3id.org/sepses/vocab/ref/cvss#>
+
+SELECT ?s ?timestamp ?message ?sid ?cve ?score WHERE {
+ ?s   cl:timestamp   ?timestamp.
+ ?s   cl:message   ?message.
+ ?s   sa:signatureId ?sid.
+ ?sid  sr:hasRuleOption ?ro.
+ ?ro sr:hasCVEReference ?cve.
+ ?rev cve:hasCVSS2BaseMetric ?cbm.
+?cbm cvss:baseScore ?score.
+	 
+}			
+LIMIT 3'>(Snort Alert Log) Get Evemt from Snort Alert log</option>
+					
+		<option name="q3" value='PREFIX cl: <https://w3id.org/sepses/vocab/log/coreLog#>
+PREFIX auth: <https://w3id.org/sepses/vocab/log/authLog#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX dbo: <http://dbpedia.org/ontology/>
+	
+SELECT ?s ?timestamp ?program ?message ?logfamily ?abst WHERE {
+  ?s   cl:message   ?message.
+  ?s   cl:timestamp   ?timestamp.
+  ?s   auth:programName   ?program.
+  ?s   cl:hasLogFamily  ?lf.
+  ?lf  rdfs:label  ?logfamily.
+  ?lf  dbo:abstract ?abst.		
+FILTER regex(?message,"Received")
+}
+LIMIT 50'>(Authlog) Received Authentication (with Federation to DBPedia)</option>
+
+	</select>
+</td></tr></table>
+    </br>
+	<textarea rows="10" id="queryarea" cols="130"></textarea></br></br>
+		<!-- <button name="test" id="test">Test</button>&nbsp;-->
+		 <button name="run" id="run">Run Api</button>&nbsp;
+		 <button name="run_comunica" id="run_comunica">Run Comunica</button>&nbsp;
+		 <button name="reset" id="reset">Reset</button>
+		 
+         </br></br>
+        <div id="content"></div>
+        <div class="modal"><!-- Place at bottom of page --></div>
+  <script>
+
+$(document).ready(function(){
+
+    $.getJSON( "/input.json", function( data ) {
+  var items = [];
+  $.each( data, function( key, val ) {
+    items.push( "<li id='" + key + "'>" + val + "</li>" );
+  });
+
+
+	//handle checkbox
+	$("#host1").on('change', function(){
+		$("#hostapi1").prop('checked',this.checked);
+	});
+	$("#host2").on('change', function(){
+		$("#hostapi2").prop('checked',this.checked);
+	});
+	$("#host3").on('change', function(){
+		$("#hostapi3").prop('checked',this.checked);
+	});
+	$("#host4").on('change', function(){
+		$("#hostapi4").prop('checked',this.checked);
+	});
+	$("#host5").on('change', function(){
+		$("#hostapi5").prop('checked',this.checked);
+	});
+
+	$("#queryString").on('change', function(){
+		$("#dbpedia").prop('checked',false);
+		$("#dbpedia_tpf").prop('checked',false);
+		$("#csgk_tpf").prop('checked',false);
+		$("#csgk").prop('checked',false);
+		//alert("test");
+		if($(this).find('option:selected').attr("name")=="q2"){
+			$("#startTime").val("Nov 11 10:00:04");
+			$("#endTime").val("Nov 11 10:10:04");
+		}else if($(this).find('option:selected').attr("name")=="q4"){
+			$("#startTime").val("Oct 29 16:38:00");
+			$("#endTime").val("Oct 29 16:41:00");
+			$("#csgk_tpf").prop('checked',true);
+			
+		}else{
+			$("#startTime").val("Dec 30 23:50:04");
+			$("#endTime").val("Dec 31 01:03:46");
+			$("#dbpedia_tpf").prop('checked',true);
+		}
+	});
+	//alert($("#queryString option:selected").val());
+$('#test').click(function(){
+	getBgKnowledge();
+	getBgKnowledgeTPF();
+	getHost();
+	getHostApi();
+
+});
+	function getHost(){
+    event.preventDefault();
+    var host = $("input:checkbox[name=host]:checked").map(function(){
+      return $(this).val();
+    }).get(); // <----
+	//console.log(host);
+	return host;
+}
+
+
+function getHostApi(){
+    event.preventDefault();
+    var host = $("input:checkbox[name=hostapi]:checked").map(function(){
+      return $(this).val();
+    }).get(); // <----
+	//console.log(host);
+	return host;
+}
+
+function getBgKnowledge(){
+    event.preventDefault();
+    var bgk = $("input:checkbox[name=bgk]:checked").map(function(){
+      return $(this).val();
+    }).get(); // <----
+	//console.log(bgk);
+	return bgk;
+}
+
+
+function getBgKnowledgeTPF(){
+    event.preventDefault();
+    var bgk_tpf = $("input:checkbox[name=bgk_tpf]:checked").map(function(){
+      return $(this).val();
+    }).get(); // <----
+	//console.log(bgk_tpf);
+	return bgk_tpf;
+}
+
+$('#queryarea').val($("#queryString option:selected").val());
+
+	$('#queryString').on('change', function(){
+	$('#queryarea').val(this.value);
+	//alert(this.value);
+});
+
+$('#reset').click(function() {
+    location.reload();
+  });
+	$body = $("body");
+
+	$('#run_comunica').click(function(){
+	  var uri = getHostApi();
+   	  var query = $('#queryarea').val();
+	  var startTime = $('#startTime').val();
+	  var endTime = $('#endTime').val();
+	  var parsedQuery;
+	  console.log(uri);
+	   $.post({url: "http://localhost:3000/parsequery",
+		         type: 'POST',
+		         data: { queryString: query} ,
+		         success: function(result){
+					parsedQuery = JSON.stringify(result);
+	   				var countParser=0;
+					if(uri.length!=0){
+				  	for(var i=0;i<uri.length;i++){
+						   parseResource(uri[i],query,parsedQuery,startTime,endTime);
+						//  alert(parse);
+						//    if(parse=="success"){
+						// 	   countParser++;
+						//    }
+					  }
+					//   console.log(countParser);		
+					// 	if(countParser>0){
+					// 		comunicaExecuteQuery(query,getHost(),getBgKnowledge(),getBgKnowledgeTPF());
+					// 	}
+					}
+					//alert(countParser);
+				}});
+	
+		
+	function parseResource(param0,param1,param2,param3,param4){
+		
+		$body.addClass("loading");
+		 $.ajax({url: "http://localhost:3000/parseresource",
+		
+			 type: 'POST',
+			 data: { url: param0,queryString: param1, parsedQuery:param2,startTime: param3, endTime:param4} ,
+			 success: function(result){
+				//var status=""; 
+				var content = result.content;
+				 if(content!=null){
+						
+					if (content.includes("success")){
+						response = $.parseJSON(content);
+						//status="success";
+						//fire comunica
+						// console.log(bgk);
+						// console.log(bgk_tpf);
+						comunicaExecuteQuery(param1,getHost(),getBgKnowledge(),getBgKnowledgeTPF());
+						//console.log(getHost().join());	
+					}else {
+						$("#content").html("<font color='red'><h3>Parse Failed</h3></font>");
+						$body.removeClass("loading");
+						//status="failed";	
+					}
+				} else{
+					$("#content").html("<font color='red'><h3>Parse Failed</h3></font>");
+					$body.removeClass("loading");
+					//status="failed";	
+				}
+				 
+			//$body.removeClass("loading");	
+			//status="success";
+		}
+		
+		});
+		return status;
+
+		}
+	
+		function comunicaExecuteQuery(queryString,host,bgk,bgk_tpf){
+			console.log(bgk.length);
+			console.log(bgk_tpf.length);
+			$.ajax({url: "http://localhost:3000/comunica",
+    		type: 'POST',
+			data: { queryString: queryString, endpoint:host.join(), bgk:bgk.join(),bgk_tpf:bgk_tpf.join()} ,
+			success: function(result){
+				response = $.parseJSON(result);
+				//console.log(host.join());
+				if(response.length==0){
+					$("#content").html("<font color='red'><h3>Empty Result!</h3></font>");
+				}else{
+					var table = parseResultToTableComunica(response);
+					$("#content").html(table);
+					
+		
+				}
+				$body.removeClass("loading");
+			}
+		});
+			
+	   
+		}
+		
+		function parseResultToTableComunica(response){
+		var table="<table border='1'>";
+			   var th = "<tr><th>Num.</th>";
+			   var col = [];
+			   var p = response[0];
+			   for (var key in p) {
+					if (p.hasOwnProperty(key)) {
+						th+="<th>"+key+"</th>";
+						col.push(key);
+						
+					}
+				}
+			   th+="</tr>";
+			
+			   var tr="";
+			             $.each(response, function(n, item) {
+			            	 var num=n+1;
+			              tr += "<tr><td>"+num+"</td>";
+			               var k;
+			                   for (k=0;k<col.length;k++){
+			                	 //  console.log(col[k]);
+			  		   tr+="<td>"+response[n][col[k]].value+"</td>";
+			                  }
+			              tr+="</tr>";
+			             });
+			         
+			
+			
+			  table+=th+tr+"</table>";
+			  return table;
+	}
+
+	});
+
+
+
+   $('#run').click(function(){
+	   
+	  var query = $('#queryarea').val();
+	  var startTime = $('#startTime').val();
+	  var endTime = $('#endTime').val();
+	  var parsedQuery;
+	   $.post({url: "http://localhost:3000/parsequery",
+		         type: 'POST',
+		         data: { queryString: query} ,
+		         success: function(result){
+		        	 parsedQuery = JSON.stringify(result);
+		        	getApi(query,parsedQuery,startTime,endTime);
+		        	 //console.log(requestURL);
+		        }});
+		       
+	
+	function getApi(param1,param2,param3,param4){
+		
+    $body.addClass("loading");
+	 $.ajax({url: "http://localhost:3000/getapi",
+    
+    	 type: 'POST',
+         data: { queryString: param1, parsedQuery:param2,startTime: param3, endTime:param4} ,
+         success: function(result){
+        	 var content = result.content;
+        	 if(content!=null){
+        	 if (content.includes("<ModelCom")){
+        		 alert(content);
+        		 $("#content").html("");
+        		 //var wnd = window.open("about:blank", "", "_blank");
+        		 //wnd.document.write(result.content);
+        	 }else if(content.includes("Empty Result")){
+        		 $("#content").html("<font color='red'><h3>Empty Result !!</h3></font>");
+        	 }else{
+        	 
+             response = $.parseJSON(content);
+             
+              var table = parseResultToTable(response);
+			  
+			  $("#content").html(table);
+			
+ 
+
+        	 }
+        	 } else{
+        		 $("#content").html("<font color='red'><h3>Content is Null !!</h3></font>");
+        	 }
+        	 
+	$body.removeClass("loading");
+        	 
+    }
+	});
+	};
+
+	function parseResultToTable(response){
+		var table="<table border='1'>";
+			   var th = "<tr><th>Num.</th>";
+			   var col = [];
+			     $.each(response.head.vars, function(i, item) {
+			        th+="<th>"+response.head.vars[i]+"</th>";
+			         col.push(response.head.vars[i]);
+			     });
+			   th+="</tr>";
+			
+			   var tr="";
+			             $.each(response.results.bindings, function(n, item) {
+			            	 var num=n+1;
+			              tr += "<tr><td>"+num+"</td>";
+			               var k;
+			                   for (k=0;k<col.length;k++){
+			  		   tr+="<td>"+response.results.bindings[n][col[k]].value+"</td>";
+			                  }
+			              tr+="</tr>";
+			             });
+			  table+=th+tr+"</table>";
+			  return table;
+	}
+	
+  });
+ 
+  });
+
+
+</script>
+</body>
+</html>

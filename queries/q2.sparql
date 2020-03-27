@@ -1,0 +1,10 @@
+PREFIX cl: <https://w3id.org/sepses/vocab/log/coreLog#>
+PREFIX apache: <https://w3id.org/sepses/vocab/log/apacheLog#>
+SELECT ?s ?timestamp ?client ?verb ?request WHERE {
+ ?s   apache:hasClient   ?client.
+ ?s   apache:hasRequestVerb   ?verb.
+ ?s   apache:hasRequest   ?request.
+ ?s   cl:timestamp   ?timestamp.
+FILTER regex(?verb,"GET")
+	}			
+	LIMIT 50
