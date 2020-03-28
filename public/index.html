@@ -23,101 +23,20 @@ textarea {
   <table>
 <!--Host Option-->
 <tr><td>
-  Choose Host</td><td>: <input type="checkbox" name="host" id="host1" value="http://localhost:8890/sparql" checked>
-	<input type="checkbox" style="display:none;" name="hostapi"  id="hostapi1" value="http://localhost:8080" checked>
-  <label for="host1">Host 1</label>
-<input type="checkbox" name="host" id="host2" value="http://localhost:8892/sparql">
-<input type="checkbox" style="display:none;" name="hostapi"  id="hostapi2" value="http://localhost:8082">
-  <label for="host2">Host 2</label>
-<input type="checkbox" name="host" id="host3" value="http://localhost:8893/sparql">
-<input type="checkbox" style="display:none;" name="hostapi"  id="hostapi3" value="http://localhost:8083">
-  <label for="host3">Host 3</label>
-  <input type="checkbox" name="host" id="host4" value="http://localhost:8894/sparql">
-  <input type="checkbox" style="display:none;" name="hostapi"  id="hostapi4" value="http://localhost:8084">
-  <label for="host4">Host 4</label>
-  <input type="checkbox" name="host" id="host5" value="http://localhost:8895/sparql">
-	<input type="checkbox" style="display:none;" name="hostapi"  id="hostapi5" value="http://localhost:8085">
-  <label for="host5">Host 5</label>
-</td></tr>
+  Choose Host</td><td>: 
+    <label id="chooseHost"></label>
+    </td></tr>
 <!--Background Knowledge Option-->
 
 <tr><td>
 	Choose Bg-Knowledge</td><td>: 
-		<input type="checkbox" name="bgk_tpf" id="dbpedia_tpf" value="https://fragments.dbpedia.org/2016-04/en">
-		<label for="dbpedia_tpf">DBPedia 2016 (TPF)</label>
-		<input type="checkbox" name="bgk_tpf" id="csgk_tpf" value="http://ldf-server.sepses.ifs.tuwien.ac.at/sepses-cyber/en">
-		<label for="csgk_tpf">CSGK (TPF)</label>
-		<input type="checkbox" name="bgk" id="dbpedia" value="http://dbpedia.org/sparql" >
-	<label for="dbpedia">DBPedia Live</label>
-  <input type="checkbox" name="bgk" id="csgk" value="https://sepses.ifs.tuwien.ac.at/sparql">
-	<label for="CSGK">CSGK</label>
-
+	<label id="chooseBgKnowledge"></label>
     </td></tr>
-  <!-- <tr><td>Pick a time</td><td>: <select name="picktime">
-    <option value="1h">Last 1 hour</option>
-    <option value="2h">Last 3 hours</option>
-    <option value="6h">Last 6 hours</option>
-    <option value="12h">Last 12 hours</option>
-    <option value="24h">Last 24 hours</option>
-</select> </td></tr><!-->
 <tr><td>Range of Time</td><td>: Start Time <input type="text" id="startTime" value="Dec 30 23:50:04">  End Time <input type="endTime" id="endTime" value="Dec 31 01:03:46"> </td></tr>
 </br>
 <tr><td>Pick a Query</td><td>: 
-	<select id="queryString">
-		<option selected name="q1" value='PREFIX cl: <https://w3id.org/sepses/vocab/log/coreLog#>
-PREFIX auth: <https://w3id.org/sepses/vocab/log/authLog#>
-SELECT ?s ?timestamp ?message ?prog  WHERE {
- ?s   cl:message   ?message.
- ?s   auth:programName   ?prog.
- ?s   cl:timestamp   ?timestamp.		
-FILTER regex(?message,"Received")
-}			
-LIMIT 50'>(Authlog) Received Authentication</option>
-<option  name="q2" value='PREFIX cl: <https://w3id.org/sepses/vocab/log/coreLog#>
-PREFIX apache: <https://w3id.org/sepses/vocab/log/apacheLog#>
-SELECT ?s ?timestamp ?client ?verb ?request WHERE {
- ?s   apache:hasClient   ?client.
- ?s   apache:hasRequestVerb   ?verb.
- ?s   apache:hasRequest   ?request.
- ?s   cl:timestamp   ?timestamp.
-FILTER regex(?verb,"GET")
-	}			
-	LIMIT 50'>(ApacheLog) Get from apache log</option>
-<option  name="q4" value='PREFIX cl: <https://w3id.org/sepses/vocab/log/coreLog#>
-PREFIX sa: <https://w3id.org/sepses/vocab/log/snort-alert#>
-PREFIX sr: <http://w3id.org/sepses/vocab/rule/snortRule#>
-PREFIX cve: <http://w3id.org/sepses/vocab/ref/cve#>
-PREFIX cvss: <http://w3id.org/sepses/vocab/ref/cvss#>
-
-SELECT ?s ?timestamp ?message ?sid ?cve ?score WHERE {
- ?s   cl:timestamp   ?timestamp.
- ?s   cl:message   ?message.
- ?s   sa:signatureId ?sid.
- ?sid  sr:hasRuleOption ?ro.
- ?ro sr:hasCVEReference ?cve.
- ?rev cve:hasCVSS2BaseMetric ?cbm.
-?cbm cvss:baseScore ?score.
-	 
-}			
-LIMIT 3'>(Snort Alert Log) Get Evemt from Snort Alert log</option>
-					
-		<option name="q3" value='PREFIX cl: <https://w3id.org/sepses/vocab/log/coreLog#>
-PREFIX auth: <https://w3id.org/sepses/vocab/log/authLog#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
-PREFIX dbo: <http://dbpedia.org/ontology/>
-	
-SELECT ?s ?timestamp ?program ?message ?logfamily ?abst WHERE {
-  ?s   cl:message   ?message.
-  ?s   cl:timestamp   ?timestamp.
-  ?s   auth:programName   ?program.
-  ?s   cl:hasLogFamily  ?lf.
-  ?lf  rdfs:label  ?logfamily.
-  ?lf  dbo:abstract ?abst.		
-FILTER regex(?message,"Received")
-}
-LIMIT 50'>(Authlog) Received Authentication (with Federation to DBPedia)</option>
-
-	</select>
+	<label id="queryStringSelectOption"></label>
+	<select id="queryString"></select>
 </td></tr></table>
     </br>
 	<textarea rows="10" id="queryarea" cols="130"></textarea></br></br>
@@ -132,6 +51,58 @@ LIMIT 50'>(Authlog) Received Authentication (with Federation to DBPedia)</option
   <script>
 
 $(document).ready(function(){
+
+	function readQueryFile(queryFile){
+		var res = null;
+		$.ajax({
+        url: queryFile,
+        type: 'get',
+        dataType: 'html',
+        async: false,
+        success: function(data) {
+            res = data;
+        } 
+     });
+		
+
+		return res;
+	}
+
+    $.getJSON( "input.json", function(result) {
+		var items = [];
+		//queryString
+		//console.log(result.queryString);
+		//queryStringSelectOption="";
+		for(i=0;i<result.queryString.length;i++){
+			qs = readQueryFile(result.queryString[i].queryFile);
+			//console.log(qs);
+			option="<option name=\""+result.queryString[i].name+"\" value=\""+qs+"\" "+result.queryString[i].selected+">"+result.queryString[i].label+"</option>";
+			queryStringSelectOption=queryStringSelectOption+option;
+		}
+		queryStringSelectOption=queryStringSelectOption;
+		$("#queryString").html(queryStringSelectOption);
+		//console.log(queryStringSelectOption)
+		$('#queryarea').val($("#queryString option:selected").val());
+	   
+		// choose host
+		chooseHost="";
+		for(i=0;i<result.hostEndpoint.length;i++){
+			input="<input type=\"checkbox\" name=\""+result.hostEndpoint[i].name+"\" value=\""+result.hostEndpoint[i].value+"\" "+result.hostEndpoint[i].checked+">"+result.hostEndpoint[i].label+"</input>";
+			inputHidden="<input type=\"checkbox\" style=\"display:none\" name=\""+result.hostApi[i].name+"\" value=\""+result.hostApi[i].value+"\" "+result.hostApi[i].checked+">";
+			chooseHost=chooseHost+input+inputHidden;
+		}
+		$("#chooseHost").html(chooseHost);
+
+		//choose Bg-Knowledge
+		chooseBgKnowledge="";
+		for(i=0;i<result.bgKnowledge.length;i++){
+			inputBg="<input type=\"checkbox\" name=\""+result.bgKnowledge[i].name+"\" id=\""+result.bgKnowledge[i].id+"\" value=\""+result.bgKnowledge[i].value+"\" "+result.bgKnowledge[i].checked+">"+result.bgKnowledge[i].label+"</input>";
+			chooseBgKnowledge=chooseBgKnowledge+inputBg;
+		}
+		$("#chooseBgKnowledge").html(chooseBgKnowledge);
+		
+	});
+
 
 	//handle checkbox
 	$("#host1").on('change', function(){
@@ -159,7 +130,7 @@ $(document).ready(function(){
 		if($(this).find('option:selected').attr("name")=="q2"){
 			$("#startTime").val("Nov 11 10:00:04");
 			$("#endTime").val("Nov 11 10:10:04");
-		}else if($(this).find('option:selected').attr("name")=="q4"){
+		}else if($(this).find('option:selected').attr("name")=="q3"){
 			$("#startTime").val("Oct 29 16:38:00");
 			$("#endTime").val("Oct 29 16:41:00");
 			$("#csgk_tpf").prop('checked',true);
@@ -180,7 +151,7 @@ $('#test').click(function(){
 });
 	function getHost(){
     event.preventDefault();
-    var host = $("input:checkbox[name=host]:checked").map(function(){
+    var host = $("input:checkbox[name=hostEndpoint]:checked").map(function(){
       return $(this).val();
     }).get(); // <----
 	//console.log(host);
@@ -190,7 +161,7 @@ $('#test').click(function(){
 
 function getHostApi(){
     event.preventDefault();
-    var host = $("input:checkbox[name=hostapi]:checked").map(function(){
+    var host = $("input:checkbox[name=hostApi]:checked").map(function(){
       return $(this).val();
     }).get(); // <----
 	//console.log(host);
@@ -216,7 +187,7 @@ function getBgKnowledgeTPF(){
 	return bgk_tpf;
 }
 
-$('#queryarea').val($("#queryString option:selected").val());
+
 
 	$('#queryString').on('change', function(){
 	$('#queryarea').val(this.value);
@@ -240,7 +211,8 @@ $('#reset').click(function() {
 		         data: { queryString: query} ,
 		         success: function(result){
 					parsedQuery = JSON.stringify(result);
-	   				var countParser=0;
+					   var countParser=0;
+					   //console.log(result);
 					if(uri.length!=0){
 				  	for(var i=0;i<uri.length;i++){
 						   parseResource(uri[i],query,parsedQuery,startTime,endTime);

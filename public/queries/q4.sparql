@@ -1,7 +1,7 @@
 PREFIX cl: <https://w3id.org/sepses/vocab/log/coreLog#>
 PREFIX auth: <https://w3id.org/sepses/vocab/log/authLog#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
 PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
 	
 SELECT ?s ?timestamp ?program ?message ?logfamily ?abst WHERE {
   ?s   cl:message   ?message.
@@ -10,6 +10,6 @@ SELECT ?s ?timestamp ?program ?message ?logfamily ?abst WHERE {
   ?s   cl:hasLogFamily  ?lf.
   ?lf  rdfs:label  ?logfamily.
   ?lf  dbo:abstract ?abst.		
-FILTER regex(?message,"Received")
+FILTER regex(?message,'Received')
 }
 LIMIT 50

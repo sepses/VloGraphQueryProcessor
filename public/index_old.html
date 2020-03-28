@@ -23,9 +23,22 @@ textarea {
   <table>
 <!--Host Option-->
 <tr><td>
-  Choose Host</td><td>: 
-    <div id="chooseHost"></div>
-    </td></tr>
+  Choose Host</td><td>: <input type="checkbox" name="host" id="host1" value="http://localhost:8890/sparql" checked>
+	<input type="checkbox" style="display:none;" name="hostapi"  id="hostapi1" value="http://localhost:8080" checked>
+  <label for="host1">Host 1</label>
+<input type="checkbox" name="host" id="host2" value="http://localhost:8892/sparql">
+<input type="checkbox" style="display:none;" name="hostapi"  id="hostapi2" value="http://localhost:8082">
+  <label for="host2">Host 2</label>
+<input type="checkbox" name="host" id="host3" value="http://localhost:8893/sparql">
+<input type="checkbox" style="display:none;" name="hostapi"  id="hostapi3" value="http://localhost:8083">
+  <label for="host3">Host 3</label>
+  <input type="checkbox" name="host" id="host4" value="http://localhost:8894/sparql">
+  <input type="checkbox" style="display:none;" name="hostapi"  id="hostapi4" value="http://localhost:8084">
+  <label for="host4">Host 4</label>
+  <input type="checkbox" name="host" id="host5" value="http://localhost:8895/sparql">
+	<input type="checkbox" style="display:none;" name="hostapi"  id="hostapi5" value="http://localhost:8085">
+  <label for="host5">Host 5</label>
+</td></tr>
 <!--Background Knowledge Option-->
 
 <tr><td>
@@ -119,13 +132,6 @@ LIMIT 50'>(Authlog) Received Authentication (with Federation to DBPedia)</option
   <script>
 
 $(document).ready(function(){
-
-    $.getJSON( "/input.json", function( data ) {
-  var items = [];
-  $.each( data, function( key, val ) {
-    items.push( "<li id='" + key + "'>" + val + "</li>" );
-  });
-
 
 	//handle checkbox
 	$("#host1").on('change', function(){

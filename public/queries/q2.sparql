@@ -5,6 +5,6 @@ SELECT ?s ?timestamp ?client ?verb ?request WHERE {
  ?s   apache:hasRequestVerb   ?verb.
  ?s   apache:hasRequest   ?request.
  ?s   cl:timestamp   ?timestamp.
-FILTER regex(?verb,"GET")
+FILTER regex(?verb,'GET')
 	}			
 	LIMIT 50
