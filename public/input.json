@@ -106,7 +106,7 @@
     },{
         "name":"bgk_tpf",
         "id":"csgk_tpf",
-        "value":"http://ldf-server.sepses.ifs.tuwien.ac.at/sepses-cyber/en",
+        "value":"http://ldf-server.sepses.ifs.tuwien.ac.at/sepses-cyber",
         "label":"CSKG TPF",
         "checked":""
     },{

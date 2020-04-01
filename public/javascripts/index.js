@@ -1,6 +1,7 @@
 
 $(document).ready(function(){
 
+
 	function readQueryFile(queryFile){
 		var res = null;
 		$.ajax({
@@ -36,12 +37,15 @@ $(document).ready(function(){
 		// choose host
 		chooseHost="";
 		for(i=0;i<result.hostEndpoint.length;i++){
-			input="<input type=\"checkbox\" name=\""+result.hostEndpoint[i].name+"\" value=\""+result.hostEndpoint[i].value+"\" "+result.hostEndpoint[i].checked+">"+result.hostEndpoint[i].label+"</input>";
-			inputHidden="<input type=\"checkbox\" style=\"display:none\" name=\""+result.hostApi[i].name+"\" value=\""+result.hostApi[i].value+"\" "+result.hostApi[i].checked+">";
+			input="<input type=\"checkbox\" name=\""+result.hostEndpoint[i].name+"\" value=\""+result.hostEndpoint[i].value+"\" id=\""+result.hostEndpoint[i].id+"\" onclick=\"checks('"+result.hostApi[i].id+"')\" "+result.hostEndpoint[i].checked+">"+result.hostEndpoint[i].label+"</input>";
+			inputHidden="<input type=\"checkbox\" style=\"display:none\" name=\""+result.hostApi[i].name+"\" value=\""+result.hostApi[i].value+"\" id=\""+result.hostApi[i].id+"\" "+result.hostApi[i].checked+">";
 			chooseHost=chooseHost+input+inputHidden;
+			
 		}
-		$("#chooseHost").html(chooseHost);
 
+	
+		$("#chooseHost").html(chooseHost);
+		
 		//choose Bg-Knowledge
 		chooseBgKnowledge="";
 		for(i=0;i<result.bgKnowledge.length;i++){
@@ -50,12 +54,10 @@ $(document).ready(function(){
 		}
             $("#chooseBgKnowledge").html(chooseBgKnowledge);
 
-    //handle checkbox
-    for(i=0;i<result.hostEndpoint.length;i++){
-        $("#"+result.hostEndpoint.name).on('change', function(){
-            $("#"+result.hostApi.name).prop('checked',this.checked);
-        });
-    }
+	//handle checkbox
+   
+      
+    
 
     //handle time range
     $("#queryString").on('change', function(){
@@ -105,6 +107,9 @@ $(document).ready(function(){
 			$("#dbpedia_tpf").prop('checked',true);
 		}
 	});*/
+
+	
+
 
 function getHost(){
     event.preventDefault();
@@ -368,3 +373,12 @@ $('#reset').click(function() {
   });
  
   });
+
+  function checks(par){
+	//alert(par);
+	if(document.getElementById(par).checked==null || document.getElementById(par).checked==false){
+	  document.getElementById(par).checked = true;
+	}else{
+	  document.getElementById(par).checked = false;
+	}
+}
