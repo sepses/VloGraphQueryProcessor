@@ -2,7 +2,7 @@
     "queryString":[{
         "name":"q1",
         "selected":"selected",
-        "label":"(Authlog) Received Authentication",
+        "label":"(Authlog)  Authentication",
         "queryFile":"/queries/q1.sparql",
         "defaultTimeRange":{
             "startTime":"Dec 30 23:50:04",
@@ -39,6 +39,16 @@
             "endTime":"Dec 31 01:03:46"
         },
         "bgKnowledge":["dbpedia_tpf"]
+    },{
+        "name":"q5",
+        "selected":"",
+        "label":"(Snort Log) without federation",
+        "queryFile":"/queries/q5.sparql",
+        "defaultTimeRange":{
+            "startTime":"Mar 16 13:07:57",
+            "endTime":"Mar 16 13:07:59"
+        },
+        "bgKnowledge":[]
     }],
     "hostEndpoint":[{
         "name":"hostEndpoint",

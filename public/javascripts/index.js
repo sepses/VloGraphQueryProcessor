@@ -1,7 +1,8 @@
 
 $(document).ready(function(){
 
-
+	
+	
 	function readQueryFile(queryFile){
 		var res = null;
 		$.ajax({
@@ -54,17 +55,14 @@ $(document).ready(function(){
 		}
             $("#chooseBgKnowledge").html(chooseBgKnowledge);
 
-	//handle checkbox
    
-      
-    
-
-    //handle time range
     $("#queryString").on('change', function(){
+		//handle bg-knowledge
         //console.log(result.bgKnowledge.length);
         for(i=0;i<result.bgKnowledge.length;i++){
             $("#"+result.bgKnowledge[i].id).prop('checked',false);
-        }
+		}
+		 //handle time range
         for(i=0;i<result.queryString.length;i++){
             if($(this).find('option:selected').attr("name")==result.queryString[i].name){
                 $("#startTime").val(result.queryString[i].defaultTimeRange.startTime);
@@ -162,6 +160,7 @@ $('#reset').click(function() {
 	$body = $("body");
 
 	$('#run_comunica').click(function(){
+	  var t0 = performance.now();
 	  var uri = getHostApi();
    	  var query = $('#queryarea').val();
 	  var startTime = $('#startTime').val();
@@ -215,11 +214,19 @@ $('#reset').click(function() {
 					}else {
 						$("#content").html("<font color='red'><h3>Parse Failed</h3></font>");
 						$body.removeClass("loading");
+						
+						var t1 = performance.now();
+						$("#runningTime").html("Process Time : " + (t1 - t0) + " milliseconds.");
+						
 						//status="failed";	
 					}
 				} else{
 					$("#content").html("<font color='red'><h3>Parse Failed</h3></font>");
 					$body.removeClass("loading");
+					
+					var t1 = performance.now();
+					$("#runningTime").html("Process Time : " + (t1 - t0) + " milliseconds.");
+					
 					//status="failed";	
 				}
 				 
@@ -249,7 +256,10 @@ $('#reset').click(function() {
 					
 		
 				}
-				$body.removeClass("loading");
+				$body.removeClass("loading");			
+				var t1 = performance.now();
+				$("#runningTime").html("Process Time : " + (t1 - t0) + " milliseconds.");
+				
 			}
 		});
 			
@@ -287,6 +297,9 @@ $('#reset').click(function() {
 			  table+=th+tr+"</table>";
 			  return table;
 	}
+
+
+
 
 	});
 
@@ -372,7 +385,7 @@ $('#reset').click(function() {
 	
   });
  
-  });
+   });
 
   function checks(par){
 	//alert(par);

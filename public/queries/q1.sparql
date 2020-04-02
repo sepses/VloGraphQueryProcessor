@@ -1,9 +1,10 @@
 PREFIX cl: <https://w3id.org/sepses/vocab/log/coreLog#>
 PREFIX auth: <https://w3id.org/sepses/vocab/log/authLog#>
-SELECT ?s ?timestamp ?message ?prog  WHERE {
+SELECT ?s ?timestamp ?message ?program  WHERE {
  ?s   cl:message   ?message.
- ?s   auth:programName   ?prog.
+ ?s   auth:programName   ?program.
  ?s   cl:timestamp   ?timestamp.		
-FILTER regex(?message,'Received')
+FILTER regex(?program,'CRON')	
+FILTER regex(?message,'uid=0')
 }			
 LIMIT 50

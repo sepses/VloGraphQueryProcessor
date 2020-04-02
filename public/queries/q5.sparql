@@ -1,0 +1,10 @@
+
+PREFIX cl: <https://w3id.org/sepses/vocab/log/coreLog#>
+PREFIX sa: <https://w3id.org/sepses/vocab/log/snort-alert#>
+
+SELECT ?s ?timestamp ?message ?sid  WHERE {
+ ?s   cl:timestamp   ?timestamp.
+ ?s   cl:message   ?message.
+ ?s   sa:signatureId ?sid.
+	 
+}			
