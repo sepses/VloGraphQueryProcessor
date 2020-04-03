@@ -42,11 +42,21 @@
     },{
         "name":"q5",
         "selected":"",
-        "label":"(Snort Log) without federation",
+        "label":"(Snort Log) begining of time range",
         "queryFile":"/queries/q5.sparql",
         "defaultTimeRange":{
-            "startTime":"Mar 16 13:07:57",
-            "endTime":"Mar 16 13:07:59"
+            "startTime":"Mar 16 13:07:00",
+            "endTime":"Mar 16 13:08:00"
+        },
+        "bgKnowledge":[]
+    },{
+        "name":"q6",
+        "selected":"",
+        "label":"(Snort Log) last of time range",
+        "queryFile":"/queries/q5.sparql",
+        "defaultTimeRange":{
+            "startTime":"Mar 16 13:31:00",
+            "endTime":"Mar 16 13:31:59"
         },
         "bgKnowledge":[]
     }],
