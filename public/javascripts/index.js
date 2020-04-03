@@ -188,7 +188,10 @@ $('#reset').click(function() {
 					// 	}
 					}
 					//alert(countParser);
-				}});
+				}}).fail(function(result) { 
+					res = JSON.stringify(result);
+					alert("Query error"+ res); 
+				 });
 	
 		
 	function parseResource(param0,param1,param2,param3,param4){
