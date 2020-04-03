@@ -25,8 +25,8 @@
         "label":"(Snort Alert Log) Get Evemt from Snort Alert log with federation to CSKG",
         "queryFile":"/queries/q3.sparql",
         "defaultTimeRange":{
-            "startTime":"Oct 29 16:38:00",
-            "endTime":"Oct 29 16:41:00"
+            "startTime":"Mar 16 13:07:57",
+            "endTime":"Mar 16 13:07:59"
         },
         "bgKnowledge":["csgk_tpf"]
     },{
