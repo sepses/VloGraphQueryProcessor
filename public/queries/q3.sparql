@@ -10,8 +10,16 @@ SELECT ?s ?timestamp ?message ?sid ?cve ?score WHERE {
  ?s   sa:signatureId ?sid.
  ?sid  sr:hasRuleOption ?ro.
  ?ro sr:hasCVEReference ?cve.
- ?rev cve:hasCVSS2BaseMetric ?cbm.
+ ?cve cve:hasCVSS2BaseMetric ?cbm.
 ?cbm cvss:baseScore ?score.
+FILTER regex(?message,'WEB-MISC Netscape Enterprise')
+#FILTER regex(?message,'ICMP Destination Unreachable')
+#FILTER regex(?message,'WEB-MISC Chunked-Encoding')
+#FILTER regex(?message,'WEB-MISC WebDAV search')
+#FILTER regex(?message,'WEB-MISC TRACE attempt')
+#FILTER regex(?message,'WEB-FRONTPAGE rad fp30reg.dll')
+ 
 	 
 }			
 LIMIT 3
+	 

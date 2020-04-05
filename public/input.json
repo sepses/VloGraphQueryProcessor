@@ -22,11 +22,11 @@
     },{
         "name":"q3",
         "selected":"",
-        "label":"(Snort Alert Log) Get Evemt from Snort Alert log with federation to CSKG",
+        "label":"(Snort Alert Log) Get CVE, CVSS and Impact Score from CSKG",
         "queryFile":"/queries/q3.sparql",
         "defaultTimeRange":{
-            "startTime":"Mar 16 13:07:57",
-            "endTime":"Mar 16 13:07:59"
+            "startTime":"Mar 16 13:12:26 ",
+            "endTime":"Mar 16 13:23:04"
         },
         "bgKnowledge":["csgk_tpf"]
     },{
@@ -59,6 +59,16 @@
             "endTime":"Mar 16 13:31:59"
         },
         "bgKnowledge":[]
+    },{
+        "name":"q7",
+        "selected":"",
+        "label":"(Snort Alert Log) Get CVE, CWE and Mitigation Option from CSKG",
+        "queryFile":"/queries/q6.sparql",
+        "defaultTimeRange":{
+            "startTime":"Mar 16 13:12:26 ",
+            "endTime":"Mar 16 13:23:04"
+        },
+        "bgKnowledge":["csgk_tpf"]
     }],
     "hostEndpoint":[{
         "name":"hostEndpoint",

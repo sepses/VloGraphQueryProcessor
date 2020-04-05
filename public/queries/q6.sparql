@@ -1,0 +1,18 @@
+PREFIX cl: <https://w3id.org/sepses/vocab/log/coreLog#>
+PREFIX sa: <https://w3id.org/sepses/vocab/log/snort-alert#>
+PREFIX sr: <http://w3id.org/sepses/vocab/rule/snortRule#>
+PREFIX cve: <http://w3id.org/sepses/vocab/ref/cve#>
+PREFIX cwe: <http://w3id.org/sepses/vocab/ref/cwe#>
+
+SELECT ?s ?timestamp ?message ?cve ?cwe ?md WHERE {
+ ?s    cl:timestamp   ?timestamp.
+ ?s    cl:message   ?message.
+ ?s    sa:signatureId ?sid.
+ ?sid  sr:hasRuleOption ?ro.
+ ?ro   sr:hasCVEReference ?cve.
+ ?cve  cve:hasCWE ?cwe.
+ ?cwe  cwe:hasPotentialMitigation ?cwepot.
+?cwepot cwe:mitigationDescription ?md.
+ 
+}			
+	 
