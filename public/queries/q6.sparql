@@ -13,6 +13,9 @@ SELECT ?s ?timestamp ?message ?cve ?cwe ?md WHERE {
  ?cve  cve:hasCWE ?cwe.
  ?cwe  cwe:hasPotentialMitigation ?cwepot.
 ?cwepot cwe:mitigationDescription ?md.
+FILTER regex(?message,'WEB-MISC TRACE attempt')
  
 }			
+
+LIMIT 3
 	 

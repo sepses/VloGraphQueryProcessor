@@ -26,7 +26,7 @@
         "queryFile":"/queries/q3.sparql",
         "defaultTimeRange":{
             "startTime":"Mar 16 13:12:26 ",
-            "endTime":"Mar 16 13:23:04"
+            "endTime":"Mar 16 13:12:29"
         },
         "bgKnowledge":["csgk_tpf"]
     },{
@@ -65,8 +65,8 @@
         "label":"(Snort Alert Log) Get CVE, CWE and Mitigation Option from CSKG",
         "queryFile":"/queries/q6.sparql",
         "defaultTimeRange":{
-            "startTime":"Mar 16 13:12:26 ",
-            "endTime":"Mar 16 13:23:04"
+            "startTime":"Mar 16 13:17:26",
+            "endTime":"Mar 16 13:17:28"
         },
         "bgKnowledge":["csgk_tpf"]
     }],
