@@ -15,7 +15,7 @@ router.post('/', function(req, res, next) {
 	//var sparqlEp=req.body.sparqlEp;
 	//  console.log(queryString);
 	//  console.log(parsedQuery);
-	var requestURL = url+"/startservice3?queryString="+encodeURIComponent(queryString)+"&parsedQuery="+encodeURIComponent(parsedQuery)+"&startTime="+encodeURIComponent(startTime)+"&endTime="+encodeURIComponent(endTime);
+	var requestURL = url+"/startservice?queryString="+encodeURIComponent(queryString)+"&parsedQuery="+encodeURIComponent(parsedQuery)+"&startTime="+encodeURIComponent(startTime)+"&endTime="+encodeURIComponent(endTime);
 	console.log(requestURL);
 Request.get(requestURL, (error, response, body) => {
     if(error) {
