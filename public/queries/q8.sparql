@@ -1,0 +1,10 @@
+PREFIX cl: <https://w3id.org/sepses/vocab/log/coreLog#>
+PREFIX apache: <https://w3id.org/sepses/vocab/log/apacheLog#>
+SELECT  ?clientip (COUNT(?clientip) AS ?c) WHERE {
+  ?s   apache:hasClient   ?clientip.
+  ?s   apache:hasRequestVerb   ?verb.
+  FILTER regex(?verb,'GET')
+}
+
+ORDER BY DESC(?c)			
+LIMIT 1000

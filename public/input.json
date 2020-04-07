@@ -79,6 +79,16 @@
             "endTime":"Mar 16 13:17:28"
         },
         "bgKnowledge":["csgk_tpf"]
+    },{
+        "name":"q9",
+        "selected":"",
+        "label":"(apache Log) GET access group By client ip ",
+        "queryFile":"/queries/q8.sparql",
+        "defaultTimeRange":{
+            "startTime":"Nov 11 10:00:04",
+            "endTime":"Nov 11 10:12:04"
+        },
+        "bgKnowledge":[]
     }],
     "hostEndpoint":[{
         "name":"hostEndpoint",
