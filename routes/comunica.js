@@ -58,12 +58,13 @@ async function handleData (queryString,endpoint,bgk,bgk_tpf) {
     //     //{ type: "sparql", value: "http://dbpedia.org/sparql" },
     // ];
     const result = await engine.query(query, { sources });
-    console.log(result);
+    //console.log(result);
     const results = [];
-    result.bindingsStream.on('data', data => {
-        results.push(data);
+    result.bindingsStream.on('data', (data) =>// {
+        //console.log(data.toObject()));
+          results.push(data.toObject()));
         
-    });
+    //});
     return new Promise(resolve => {
         result.bindingsStream.on('end', () => {
             resolve(results);

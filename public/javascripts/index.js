@@ -159,7 +159,31 @@ $('#reset').click(function() {
   });
 	$body = $("body");
 
+
+
+	
+	
+	function checkCreateCounter(uris){
+		var status="";
+		$.post({url: "http://localhost:3000/getapicounter",
+		type: 'POST',
+		async: false,
+		data: { urisize: uris} ,
+		success: function(result){
+			console.log("api: "+result);
+			console.log("uri: "+uris);
+			if(result=="complete"){
+				status="complete";
+			}else{
+				status="notcomplete";
+			}
+		}
+	 });
+	 return status;
+	}
+
 	$('#run_comunica').click(function(){
+		$body.addClass("loading");
 	  var t0 = performance.now();
 	  var uri = getHostApi();
    	  var query = $('#queryarea').val();
@@ -176,17 +200,22 @@ $('#reset').click(function() {
 					   //console.log(result);
 					if(uri.length!=0){
 				  	for(var i=0;i<uri.length;i++){
-						   parseResource(uri[i],query,parsedQuery,startTime,endTime);
-						//  alert(parse);
-						//    if(parse=="success"){
-						// 	   countParser++;
-						//    }
+						 parseResource(uri[i],uri.length,query,parsedQuery,startTime,endTime);
+						  //var parseR=parse();
+						 // console.log(parseR+" "+countParser);
+						   // if(parseR=="success"){
+							   //countParser++;
+						   // }
 					  }
-					//   console.log(countParser);		
-					// 	if(countParser>0){
-					// 		comunicaExecuteQuery(query,getHost(),getBgKnowledge(),getBgKnowledgeTPF());
-					// 	}
+					   //console.log(countParser);		
+					 	//if(countParser==uri.length){
+							//$body.removeClass("loading");
+							//$body.addClass("loading-comunica"); 
+						//	comunicaExecuteQuery(query,getHost(),getBgKnowledge(),getBgKnowledgeTPF());
+							 //alert("fire comunica");
+					 	//}
 					}
+				
 					//alert(countParser);
 				}}).fail(function(result) { 
 					res = JSON.stringify(result);
@@ -194,25 +223,47 @@ $('#reset').click(function() {
 				 });
 	
 		
-	function parseResource(param0,param1,param2,param3,param4){
+	function parseResource(param0,urisize,param1,param2,param3,param4){
 		
-		$body.addClass("loading");
+		//var status="";
+	
+		var status="";
 		 $.ajax({url: "http://localhost:3000/parseresource",
-		
+		 	
 			 type: 'POST',
+			 //async: false,
 			 data: { url: param0,queryString: param1, parsedQuery:param2,startTime: param3, endTime:param4} ,
 			 success: function(result){
-				//var status=""; 
+				 
 				var content = result.content;
-				 if(content!=null){
+				var cont=$.parseJSON(content);
+				//trigger and chek counter parser
+
+				var check = checkCreateCounter(urisize);
+				console.log(check);
+				if(check=="complete"){
+					//fire comunica
+					console.log("fire comunica");
+					comunicaExecuteQuery(param1,getHost(),getBgKnowledge(),getBgKnowledgeTPF());
+					
+				}
+
+				// console.log(cont.content);
+				status= cont.content;	
+				 /*if(content!=null){
+					 //console.log()
+					 var cont=$.parseJSON(content);
+					 //console.log(cont.content);
 						
-					if (content.includes("success")){
-						response = $.parseJSON(content);
-						//status="success";
+					if (cont.content=="success"){
+						//response = $.parseJSON(content);
+						
+						//return cont.content;
+						status=cont.content;
 						//fire comunica
 						// console.log(bgk);
 						// console.log(bgk_tpf);
-						comunicaExecuteQuery(param1,getHost(),getBgKnowledge(),getBgKnowledgeTPF());
+						//comunicaExecuteQuery(param1,getHost(),getBgKnowledge(),getBgKnowledgeTPF());
 						//console.log(getHost().join());	
 					}else {
 						$("#content").html("<font color='red'><h3>Parse Failed</h3></font>");
@@ -221,7 +272,8 @@ $('#reset').click(function() {
 						var t1 = performance.now();
 						$("#runningTime").html("Process Time : " + (t1 - t0) + " milliseconds.");
 						
-						//status="failed";	
+						status="failed";
+						//return status;	
 					}
 				} else{
 					$("#content").html("<font color='red'><h3>Parse Failed</h3></font>");
@@ -230,15 +282,20 @@ $('#reset').click(function() {
 					var t1 = performance.now();
 					$("#runningTime").html("Process Time : " + (t1 - t0) + " milliseconds.");
 					
-					//status="failed";	
-				}
+					status="failed";	
+					//return status;
+				}*/
 				 
 			//$body.removeClass("loading");	
 			//status="success";
-		}
+		},
+		error: function() {
+		  status="failed";
+           //return "failed";
+        }
 		
 		});
-		return status;
+			return status;
 
 		}
 	
@@ -283,9 +340,12 @@ $('#reset').click(function() {
 				}
 			   th+="</tr>";
 			
-			   var tr="";
+			   var tr="<tr><td>number of line : "+response.length+"</td></tr>";
 			             $.each(response, function(n, item) {
-			            	 var num=n+1;
+							 var num=n+1;
+							 if(num>=1){
+								 return;
+							 }
 			              tr += "<tr><td>"+num+"</td>";
 			               var k;
 			                   for (k=0;k<col.length;k++){
@@ -374,7 +434,10 @@ $('#reset').click(function() {
 			
 			   var tr="";
 			             $.each(response.results.bindings, function(n, item) {
-			            	 var num=n+1;
+							 var num=n+1;
+							 if (num>=1){
+								break;
+							 }
 			              tr += "<tr><td>"+num+"</td>";
 			               var k;
 			                   for (k=0;k<col.length;k++){

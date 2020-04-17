@@ -9,6 +9,7 @@ var parsequeryRouter = require('./routes/parsequery');
 var comunicaRouter = require('./routes/comunica');
 var testRouter = require('./routes/test');
 var parseResourceRouter = require('./routes/parseresource');
+var ApiCounterRouter = require('./routes/apicounter');
 
 var app = express();
 
@@ -19,6 +20,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/getapicounter', ApiCounterRouter);
 app.use('/getapi', getapiRouter);
 app.use('/parsequery', parsequeryRouter);
 app.use('/comunica', comunicaRouter);

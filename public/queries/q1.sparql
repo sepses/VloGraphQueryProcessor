@@ -4,7 +4,4 @@ SELECT ?s ?timestamp ?message ?program  WHERE {
  ?s   cl:message   ?message.
  ?s   auth:programName   ?program.
  ?s   cl:timestamp   ?timestamp.		
-FILTER regex(?program,'CRON')	
-FILTER regex(?message,'uid=0')
-}			
-LIMIT 50
+}
