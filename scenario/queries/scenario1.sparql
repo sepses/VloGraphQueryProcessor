@@ -1,0 +1,14 @@
+PREFIX cl: <https://w3id.org/sepses/vocab/log/coreLog#>
+PREFIX acces: <https://w3id.org/sepses/vocab/log/accessLog#>
+PREFIX res: <https://w3id.org/resource/access#>
+
+SELECT ?logType ?hostName ?hostIp  ?verb ?request 
+WHERE {   ?s cl:originatesFrom ?h;
+          ?h cl:hostName ?host;
+          ?s cl:hasLogType ?logType;
+          ?h cl:ipAddress ?hostIp. 
+          ?s access:hasRequestVerb ?verb.
+          ?s access:hasRequest ?request. 
+          ?s access:hasClient res:ip-192.168.2.1. 
+FILTER regex(?verb,"GET")
+} LIMIT 4
