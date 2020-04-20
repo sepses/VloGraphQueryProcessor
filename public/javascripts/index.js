@@ -32,9 +32,9 @@ $(document).ready(function(){
 		}
 		queryStringSelectOption=queryStringSelectOption;
 		$("#queryString").html(queryStringSelectOption);
-		//console.log(queryStringSelectOption)
+		console.log(queryStringSelectOption)
 		$('#queryarea').val($("#queryString option:selected").val());
-	   
+	
 		// choose host
 		chooseHost="";
 		for(i=0;i<result.hostEndpoint.length;i++){
@@ -182,151 +182,42 @@ $('#reset').click(function() {
 	 return status;
 	}
 
-	$('#run_comunica').click(function(){
+	$('#query_comunica').click(function(){
+		var t0 = performance.now();
+		var query = $('#queryarea').val();
+		comunicaExecuteQuery(query,getHost(),getBgKnowledge(),getBgKnowledgeTPF(),t0);
+		
+	});
+
+	function comunicaExecuteQuery(queryString,host,bgk,bgk_tpf,t0){
 		$body.addClass("loading");
-	  var t0 = performance.now();
-	  var uri = getHostApi();
-   	  var query = $('#queryarea').val();
-	  var startTime = $('#startTime').val();
-	  var endTime = $('#endTime').val();
-	  var parsedQuery;
-	  console.log(uri);
-	   $.post({url: "http://localhost:3000/parsequery",
-		         type: 'POST',
-		         data: { queryString: query} ,
-		         success: function(result){
-					parsedQuery = JSON.stringify(result);
-					   var countParser=0;
-					   //console.log(result);
-					if(uri.length!=0){
-				  	for(var i=0;i<uri.length;i++){
-						 parseResource(uri[i],uri.length,query,parsedQuery,startTime,endTime);
-						  //var parseR=parse();
-						 // console.log(parseR+" "+countParser);
-						   // if(parseR=="success"){
-							   //countParser++;
-						   // }
-					  }
-					   //console.log(countParser);		
-					 	//if(countParser==uri.length){
-							//$body.removeClass("loading");
-							//$body.addClass("loading-comunica"); 
-						//	comunicaExecuteQuery(query,getHost(),getBgKnowledge(),getBgKnowledgeTPF());
-							 //alert("fire comunica");
-					 	//}
-					}
+		console.log(bgk.length);
+		console.log(bgk_tpf.length);
+		$.ajax({url: "http://localhost:3000/comunica",
+		type: 'POST',
+		data: { queryString: queryString, endpoint:host.join(), bgk:bgk.join(),bgk_tpf:bgk_tpf.join()} ,
+		success: function(result){
+			response = $.parseJSON(result);
+			//console.log(host.join());
+			if(response.length==0){
+				$("#content").html("<font color='red'><h3>Empty Result!</h3></font>");
+			}else{
+				var table = parseResultToTableComunica(response);
+				$("#content").html(table);
 				
-					//alert(countParser);
-				}}).fail(function(result) { 
-					res = JSON.stringify(result);
-					alert("Query error"+ res); 
-				 });
 	
-		
-	function parseResource(param0,urisize,param1,param2,param3,param4){
-		
-		//var status="";
-	
-		var status="";
-		 $.ajax({url: "http://localhost:3000/parseresource",
-		 	
-			 type: 'POST',
-			 //async: false,
-			 data: { url: param0,queryString: param1, parsedQuery:param2,startTime: param3, endTime:param4} ,
-			 success: function(result){
-				 
-				var content = result.content;
-				var cont=$.parseJSON(content);
-				//trigger and chek counter parser
-
-				var check = checkCreateCounter(urisize);
-				console.log(check);
-				if(check=="complete"){
-					//fire comunica
-					console.log("fire comunica");
-					comunicaExecuteQuery(param1,getHost(),getBgKnowledge(),getBgKnowledgeTPF());
-					
-				}
-
-				// console.log(cont.content);
-				status= cont.content;	
-				 /*if(content!=null){
-					 //console.log()
-					 var cont=$.parseJSON(content);
-					 //console.log(cont.content);
-						
-					if (cont.content=="success"){
-						//response = $.parseJSON(content);
-						
-						//return cont.content;
-						status=cont.content;
-						//fire comunica
-						// console.log(bgk);
-						// console.log(bgk_tpf);
-						//comunicaExecuteQuery(param1,getHost(),getBgKnowledge(),getBgKnowledgeTPF());
-						//console.log(getHost().join());	
-					}else {
-						$("#content").html("<font color='red'><h3>Parse Failed</h3></font>");
-						$body.removeClass("loading");
-						
-						var t1 = performance.now();
-						$("#runningTime").html("Process Time : " + (t1 - t0) + " milliseconds.");
-						
-						status="failed";
-						//return status;	
-					}
-				} else{
-					$("#content").html("<font color='red'><h3>Parse Failed</h3></font>");
-					$body.removeClass("loading");
-					
-					var t1 = performance.now();
-					$("#runningTime").html("Process Time : " + (t1 - t0) + " milliseconds.");
-					
-					status="failed";	
-					//return status;
-				}*/
-				 
-			//$body.removeClass("loading");	
-			//status="success";
-		},
-		error: function() {
-		  status="failed";
-           //return "failed";
-        }
-		
-		});
-			return status;
-
-		}
-	
-		function comunicaExecuteQuery(queryString,host,bgk,bgk_tpf){
-			console.log(bgk.length);
-			console.log(bgk_tpf.length);
-			$.ajax({url: "http://localhost:3000/comunica",
-    		type: 'POST',
-			data: { queryString: queryString, endpoint:host.join(), bgk:bgk.join(),bgk_tpf:bgk_tpf.join()} ,
-			success: function(result){
-				response = $.parseJSON(result);
-				//console.log(host.join());
-				if(response.length==0){
-					$("#content").html("<font color='red'><h3>Empty Result!</h3></font>");
-				}else{
-					var table = parseResultToTableComunica(response);
-					$("#content").html(table);
-					
-		
-				}
-				$body.removeClass("loading");			
-				var t1 = performance.now();
-				$("#runningTime").html("Process Time : " + (t1 - t0) + " milliseconds.");
-				
-			}
-		});
+			}		
+		var t1 = performance.now();
+		$("#runningTime").html("Process Time : " + (t1 - t0) + " milliseconds.");
+		$body.removeClass("loading");
 			
-	   
 		}
+	});
 		
-		function parseResultToTableComunica(response){
+   
+	}
+
+	function parseResultToTableComunica(response){
 		var table="<table border='1'>";
 			   var th = "<tr><th>Num.</th>";
 			   var col = [];
@@ -361,12 +252,73 @@ $('#reset').click(function() {
 			  return table;
 	}
 
-
+	$('#run_comunica').click(function(){
+		$body.addClass("loading");
+	  var t0 = performance.now();
+	  var uri = getHostApi();
+   	  var query = $('#queryarea').val();
+	  var startTime = $('#startTime').val();
+	  var endTime = $('#endTime').val();
+	  var parsedQuery;
+	  console.log(uri);
+	   $.post({url: "http://localhost:3000/parsequery",
+		         type: 'POST',
+		         data: { queryString: query} ,
+		         success: function(result){
+					parsedQuery = JSON.stringify(result);
+					   var countParser=0;
+					   //console.log(result);
+					if(uri.length!=0){
+				  	for(var i=0;i<uri.length;i++){
+						 parseResource(uri[i],uri.length,query,parsedQuery,startTime,endTime,t0);
+					  }
+					}
+				
+				}}).fail(function(result) { 
+					res = JSON.stringify(result);
+					alert("Query error"+ res); 
+				 });
+		// var t1 = performance.now();
+		// $("#runningTime").html("Process Time : " + (t1 - t0) + " milliseconds.");
+		// $body.removeClass("loading");
 
 
 	});
 
+	function parseResource(param0,urisize,param1,param2,param3,param4,t0){
+		var status="";
+		 $.ajax({url: "http://localhost:3000/parseresource",
+		 	
+			 type: 'POST',
+			 //async: false,
+			 data: { url: param0,queryString: param1, parsedQuery:param2,startTime: param3, endTime:param4} ,
+			 success: function(result){
+				 
+				var content = result.content;
+				var cont=$.parseJSON(content);
+				//trigger and chek counter parser
 
+				var check = checkCreateCounter(urisize);
+				console.log(check);
+				if(check=="complete"){
+					//fire comunica
+					console.log("fire comunica");
+					$body.removeClass("loading");
+				
+					comunicaExecuteQuery(param1,getHost(),getBgKnowledge(),getBgKnowledgeTPF(),t0);
+					
+				}
+
+				status= cont.content;	
+		},
+		error: function() {
+		  status="failed";
+        }
+		
+		});
+			return status;
+
+		}
 
    $('#run').click(function(){
 	   

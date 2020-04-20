@@ -5,8 +5,8 @@
         "label":"(Authlog)  Authentication",
         "queryFile":"/queries/q1.sparql",
         "defaultTimeRange":{
-            "startTime":"Dec 30 23:50:04",
-            "endTime":"Dec 31 01:03:46"
+            "startTime":"Dec 31 19:50:55",
+            "endTime":"Dec 31 23:56:30"
         },
         "bgKnowledge":[]
     },{

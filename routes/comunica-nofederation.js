@@ -11,26 +11,40 @@ router.post('/', (req, res, next) => {
     //console.log(endpoint);
     var bgk=req.body.bgk;
     var bgk_tpf=req.body.bgk_tpf;
-   
-    handleData(queryString,endpoint,bgk,bgk_tpf).then(result => {
-        //console.log(result);
+    
+        //add endpoint
+        if(endpoint!=""){
+           
+            var ep=endpoint.split(",");
+                const results=[];
+                 for(var k=0;k<ep.length;k++){
+           
+               
+                handleData(queryString,ep[k],bgk,bgk_tpf).then(result => {
+                    console.log("======batas========");
+                    console.log(result);
+                    results.push(result);
+                   
+                    
+                });
+
+        }
+        console.log(results);
         res.set('content-type', 'text/plain; charset=utf-8');
-        res.send(result);
-    });
+        res.send(results);
+ 
+        
+
+}      
+
 });
+
+
 async function handleData (queryString,endpoint,bgk,bgk_tpf) {
     const query = queryString;
    const sources = [ ];
     
-    //add endpoint
-    if(endpoint!=""){
-        var ep=endpoint.split(",");
-             for(var k=0;k<ep.length;k++){
-                sources.push({ type:"sparql", value:ep[k] });
-             }
-             
-     }      
-     
+   sources.push({ type:"sparql", value:endpoint });
     //add bgk to source
      
     if(bgk!=""){

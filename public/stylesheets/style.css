@@ -20,7 +20,7 @@ a {
                 50% 50% 
                 no-repeat;
 }
-.modal-comunica {
+.modal2 {
   display:    none;
   position:   fixed;
   z-index:    1000;
@@ -47,12 +47,12 @@ body.loading .modal {
 }
 
 
-body.loading-comunica .modal-comunica {
+body.loading2 .modal2 {
   overflow: hidden;   
 }
 
 /* Anytime the body has the loading class, our
  modal element will be visible */
-body.loading-comunica .modal-comunica {
+body.loading2 .modal2 {
   display: block;
 }
