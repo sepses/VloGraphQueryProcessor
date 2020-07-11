@@ -1,0 +1,19 @@
+PREFIX cl: <https://w3id.org/sepses/vocab/log/coreLog#>
+PREFIX auth: <https://w3id.org/sepses/vocab/log/authLog#>
+PREFIX authe: <http://w3id.org/sepses/vocab/event/authEvent#>
+PREFIX event:<http://w3id.org/sepses/knowledge/eventKnowledge#>
+PREFIX sys: <http://w3id.org/sepses/vocab/system#> 
+PREFIX sysr: <http://w3id.org/sepses/resource/system#>
+
+SELECT ?s ?timestamp ?program ?targetHostType ?user ?sourceIp ?targetIp  WHERE {
+ ?s   auth:hasProgram   ?program.
+ #?s   auth:hasProgram   sysr:prog-sshd.
+ ?s   cl:timestamp   ?timestamp.
+ ?s   auth:hasUser   ?user.	
+ ?s   auth:hasSourceIp  ?sourceIp.	
+ ?s   auth:hasTargetHost ?th.
+ ?th  sys:hostType ?targetHostType.
+ ?th  sys:IpAddress ?targetIp.
+ ?s   auth:hasAuthEvent ?ae.
+ ?ae  authe:partOfEvent event:Login
+}

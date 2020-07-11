@@ -5,6 +5,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var getapiRouter = require('./routes/getapi');
+var uploadRouter = require('./routes/upload');
 var parsequeryRouter = require('./routes/parsequery');
 var comunicaRouter = require('./routes/comunica');
 var comunicaNoFedRouter = require('./routes/comunica-nofederation');
@@ -22,6 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/getapicounter', ApiCounterRouter);
+app.use('/upload', uploadRouter);
 app.use('/getapi', getapiRouter);
 app.use('/parsequery', parsequeryRouter);
 app.use('/comunica', comunicaRouter);

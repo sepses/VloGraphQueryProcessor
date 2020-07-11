@@ -137,6 +137,15 @@ function getBgKnowledge(){
 	return bgk;
 }
 
+function getBgKnowledgeFile(){
+    event.preventDefault();
+    var bgk_file = $("input:checkbox[name=bgk_file]:checked").map(function(){
+      return $(this).val();
+    }).get(); // <----
+	//console.log(bgk);
+	return bgk_file;
+}
+
 
 function getBgKnowledgeTPF(){
     event.preventDefault();
@@ -185,17 +194,18 @@ $('#reset').click(function() {
 	$('#query_comunica').click(function(){
 		var t0 = performance.now();
 		var query = $('#queryarea').val();
-		comunicaExecuteQuery(query,getHost(),getBgKnowledge(),getBgKnowledgeTPF(),t0);
+		comunicaExecuteQuery(query,getHost(),getBgKnowledge(),getBgKnowledgeTPF(),getBgKnowledgeFile(),t0);
 		
 	});
 
-	function comunicaExecuteQuery(queryString,host,bgk,bgk_tpf,t0){
+	function comunicaExecuteQuery(queryString,host,bgk,bgk_tpf,bgk_file,t0){
 		$body.addClass("loading");
 		console.log(bgk.length);
 		console.log(bgk_tpf.length);
+		console.log(bgk_file.length);
 		$.ajax({url: "http://localhost:3000/comunica",
 		type: 'POST',
-		data: { queryString: queryString, endpoint:host.join(), bgk:bgk.join(),bgk_tpf:bgk_tpf.join()} ,
+		data: { queryString: queryString, endpoint:host.join(), bgk:bgk.join(),bgk_tpf:bgk_tpf.join(),bgk_file:bgk_file.join()} ,
 		success: function(result){
 			response = $.parseJSON(result);
 			//console.log(host.join());
@@ -231,12 +241,13 @@ $('#reset').click(function() {
 				}
 			   th+="</tr>";
 			
-			   var tr="<tr><td>number of line : "+response.length+"</td></tr>";
+			 //  var tr="<tr><td>number of line : "+response.length+"</td></tr>";
+			 var tr="";
 			             $.each(response, function(n, item) {
 							 var num=n+1;
-							 if(num>=1){
-								 return;
-							 }
+							//  if(num>=1){
+							// 	 return;
+							//  }
 			              tr += "<tr><td>"+num+"</td>";
 			               var k;
 			                   for (k=0;k<col.length;k++){
@@ -305,7 +316,7 @@ $('#reset').click(function() {
 					console.log("fire comunica");
 					$body.removeClass("loading");
 				
-					comunicaExecuteQuery(param1,getHost(),getBgKnowledge(),getBgKnowledgeTPF(),t0);
+					comunicaExecuteQuery(param1,getHost(),getBgKnowledge(),getBgKnowledgeTPF(),getBgKnowledgeFile(),t0);
 					
 				}
 
@@ -387,9 +398,10 @@ $('#reset').click(function() {
 			   var tr="";
 			             $.each(response.results.bindings, function(n, item) {
 							 var num=n+1;
-							 if (num>=1){
-								break;
-							 }
+							// if (num>=1){
+								//break;
+								//alert("test");
+							// }
 			              tr += "<tr><td>"+num+"</td>";
 			               var k;
 			                   for (k=0;k<col.length;k++){

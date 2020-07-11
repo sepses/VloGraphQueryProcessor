@@ -103,31 +103,31 @@
     "hostEndpoint":[{
         "name":"hostEndpoint",
         "id":"hostEndpoint0",
-        "value":"http://10.5.0.2:5000/10.5.0.2.ttl",
+        "value":"/home/VloGraphQueryProcessor/uploads/10.5.0.2.hdt",
         "label":"Host 1",
         "checked":"checked"
     },{
         "name":"hostEndpoint",
         "id":"hostEndpoint1",
-        "value":"http://10.5.0.3:5000/10.5.0.3.ttl",
+        "value":"/home/VloGraphQueryProcessor/uploads/10.5.0.3.hdt",
         "label":"Host 2",
         "checked":""
     },{
         "name":"hostEndpoint",
         "id":"hostEndpoint2",
-        "value":"http://10.5.0.4:5000/10.5.0.4.ttl",
+        "value":"/home/VloGraphQueryProcessor/uploads/10.5.0.4.hdt",
         "label":"Host 3",
         "checked":""
     },{
         "name":"hostEndpoint",
         "id":"hostEndpoint3",
-        "value":"http://10.5.0.5:5000/10.5.0.5.ttl",
+        "value":"/home/VloGraphQueryProcessor/uploads/10.5.0.5.hdt",
         "label":"Host 4",
         "checked":""
     },{
         "name":"hostEndpoint",
         "id":"hostEndpoint4",
-        "value":"http://10.5.0.6:5000/10.5.0.6.ttl",
+        "value":"/home/VloGraphQueryProcessor/uploads/10.5.0.6.hdt",
         "label":"Host 5",
         "checked":""
     }],

@@ -89,92 +89,85 @@
             "endTime":"Nov 11 10:12:04"
         },
         "bgKnowledge":[]
-    },{
-        "name":"q9-scenario2",
-        "selected":"",
-        "label":"GET Login Access (federated)",
-        "queryFile":"/queries/q9-scenario2.sparql",
-        "defaultTimeRange":{
-            "startTime":"Dec 10 13:30:21",
-            "endTime":"Dec 10 15:10:29"
-        },
-        "bgKnowledge":[]
     }],
     "hostEndpoint":[{
         "name":"hostEndpoint",
         "id":"hostEndpoint0",
-        "value":"http://10.5.0.2:5000/10.5.0.2.ttl",
+        "value":"http://localhost:8890/sparql",
         "label":"Host 1",
         "checked":"checked"
     },{
         "name":"hostEndpoint",
         "id":"hostEndpoint1",
-        "value":"http://10.5.0.3:5000/10.5.0.3.ttl",
+        "value":"http://localhost:8891/sparql",
         "label":"Host 2",
         "checked":""
     },{
         "name":"hostEndpoint",
         "id":"hostEndpoint2",
-        "value":"http://10.5.0.4:5000/10.5.0.4.ttl",
+        "value":"http://localhost:8892/sparql",
         "label":"Host 3",
         "checked":""
     },{
         "name":"hostEndpoint",
         "id":"hostEndpoint3",
-        "value":"http://10.5.0.5:5000/10.5.0.5.ttl",
+        "value":"http://localhost:8893/sparql",
         "label":"Host 4",
         "checked":""
     },{
         "name":"hostEndpoint",
         "id":"hostEndpoint4",
-        "value":"http://10.5.0.6:5000/10.5.0.6.ttl",
+        "value":"http://localhost:8894/sparql",
         "label":"Host 5",
         "checked":""
     }],
     "hostApi":[{
         "name":"hostApi",
         "id":"hostApi0",
-        "value":"http://10.5.0.2:8080",
+        "value":"http://localhost:8080",
         "checked":"checked"
     },{
         "name":"hostApi",
         "id":"hostApi1",
-        "value":"http://10.5.0.3:8080",
+        "value":"http://localhost:8081",
         "checked":""
     },{
         "name":"hostApi",
         "id":"hostApi2",
-        "value":"http://10.5.0.4:8080",
+        "value":"http://localhost:8082",
         "checked":""
     },{
         "name":"hostApi",
         "id":"hostApi3",
-        "value":"http://10.5.0.5:8080",
+        "value":"http://localhost:8083",
         "checked":""
     },{
         "name":"hostApi",
         "id":"hostApi4",
-        "value":"http://10.5.0.6:8080",
+        "value":"http://localhost:8084",
         "checked":""
     }],
     "bgKnowledge":[{
-        "name":"bgk_file",
-        "type":"file",
-        "id":"eventknowledge",
-        "value":"https://sepses.ifs.tuwien.ac.at/knowledge/eventKnowledge.ttl",
-        "label":"Internal Knowledge",
+        "name":"bgk_tpf",
+        "id":"dbpedia_tpf",
+        "value":"https://fragments.dbpedia.org/2016-04/en",
+        "label":"DBPedia TPF",
+        "checked":""
+    },{
+        "name":"bgk_tpf",
+        "id":"csgk_tpf",
+        "value":"http://ldf-server.sepses.ifs.tuwien.ac.at/sepses-cyber",
+        "label":"CSKG TPF",
         "checked":""
     },{
         "name":"bgk",
         "id":"dbpedia",
-        "type":"sparql",
         "value":"http://dbpedia.org/sparql",
         "label":"DBPedia Live",
         "checked":""
     },{
         "name":"bgk",
         "id":"csgk",
-        "type":"sparql",
         "value":"https://sepses.ifs.tuwien.ac.at/sparql",
         "label":"CSKG Live",
         "checked":""
