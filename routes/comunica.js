@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const cors = require('cors');
-var comunica = require('@comunica/actor-init-sparql-file');
-//var comunica = require('@comunica/actor-init-sparql-hdt');
+//var comunica = require('@comunica/actor-init-sparql-file');
+var comunica = require('@comunica/actor-init-sparql-hdt');
 const engine = comunica.newEngine();
 
 router.use(cors());
