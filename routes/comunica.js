@@ -28,8 +28,8 @@ async function handleData (queryString,endpoint,bgk,bgk_tpf,bgk_file) {
     if(endpoint!=""){
         var ep=endpoint.split(",");
              for(var k=0;k<ep.length;k++){
-                //sources.push({ type:"hdtFile", value:ep[k] });
-                sources.push({ type:"file", value:ep[k] });
+                sources.push({ type:"hdtFile", value:ep[k] });
+               // sources.push({ type:"file", value:ep[k] });
              }
              
      }      
