@@ -213,6 +213,7 @@ $('#reset').click(function() {
 				$("#content").html("<font color='red'><h3>Empty Result!</h3></font>");
 			}else{
 				var table = parseResultToTableComunica(response);
+				
 				$("#content").html(table);
 				
 	
@@ -241,8 +242,8 @@ $('#reset').click(function() {
 				}
 			   th+="</tr>";
 			
-			 //  var tr="<tr><td>number of line : "+response.length+"</td></tr>";
-			 var tr="";
+			   var tr="<tr><td>number of line : "+response.length+"</td></tr>";
+			 /*var tr="";
 			             $.each(response, function(n, item) {
 							 var num=n+1;
 							//  if(num>=1){
@@ -257,7 +258,7 @@ $('#reset').click(function() {
 			              tr+="</tr>";
 			             });
 			         
-			
+			*/
 			
 			  table+=th+tr+"</table>";
 			  return table;
