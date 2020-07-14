@@ -367,10 +367,11 @@ $('#reset').click(function() {
         	 }else{
         	 
              response = $.parseJSON(content);
-             
-              var table = parseResultToTable(response);
+			 
+			  var countNumber = parseResultToTable(response);
+             // var table = parseResultToTable(response);
 			  
-			  $("#content").html(table);
+			  $("#content").html(countNumber);
 			
  
 
@@ -384,6 +385,16 @@ $('#reset').click(function() {
     }
 	});
 	};
+
+	function parseResulttoCountNumber(response){
+		var count=0;
+		$.each(response.results.bindings, function(n, item) {
+			count++;
+		});
+
+		return "total data="+count;
+
+	}
 
 	function parseResultToTable(response){
 		var table="<table border='1'>";
