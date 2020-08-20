@@ -4,7 +4,7 @@ Virtual Log Graph Query Processor is a web based application that provides an in
 This application contains several components:
 - **SPARQL Query Editor**, This component  allows  users  to  formulate  and  execute  SPARQL queries against hosts. The query editor provides options that allow analysts to define settings for the query execution, including:
     - *Target Hosts*: a collection of endpoints which should be consid-ered in the log analysis,
-    - *Knowledge bases*: a collection of internaland/or external sources of background knowledge that should beincluded in the  query execution (e.g.,SEPSES-CSKG and DBPedia)
+    - *Knowledge bases*: a collection of internaland/or external sources of background knowledge that should beincluded in the  query execution (e.g., <a target="_blank" href="http://w3id.org/sepses/sparql">SEPSES-CSKG</a> and <a target="_blank" href="http://dbpedia.org/sparql">DBPedia</a>)
     - *Time Interval*: the time range of interest for the log analysis(i.e., start time and end time).
 - **Query Parser**, this component parses the raw SPARQL syntax into a structured format to easier access the elements and variables (i.e. JSON). We use <a href="https://github.com/RubenVerborgh/SPARQL.js">SPARQL.JS</a> an open-source SPARQL query parser. 
 - **Query Engine**, it use to execute SPARQL Query against the <a target="_blank" href="https://github.com/rdfhdt">RDF-HDT</a> data produced by <a target="_blank" href="https://github.com/sepses/VloGParser">Log Parser</a>. We used <a target="_blank" href="https://github.com/comunica/comunica">Comunica</a>, a modular query engine platform that supports querying over multiple heterogeneous linkeddata interfaces (e.g., HDT, File, SPARQL Endpoint, TPF, etc)
