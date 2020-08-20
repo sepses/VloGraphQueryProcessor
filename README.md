@@ -4,7 +4,7 @@ Virtual Log Graph Query Processor is a web based application that provides an in
 This application contains several components:
 - **SPARQL Query Editor**, This component is part of the QueryProcessor  that  allows  users  to  formulate  and  execute  SPARQLqueries against hosts.
 - **Query Parser**, this component parses the raw SPARQL syntax into a structured format to easier access the elements and variables (i.e. JSON). We use <a href="https://github.com/RubenVerborgh/SPARQL.js">SPARQL.JS</a> an open-source SPARQL query parser. 
-- **Query Engine**, it use to execute SPARQL Query against the <a href="https://github.com/rdfhdt">RDF-HDT</a> data produced by <a href="https://github.com/sepses/VloGParser">Log Parser</a>. We used <a href="https://github.com/comunica/comunica">Comunica</a>, a modular query engine platform that supports querying over multiple heterogeneous linkeddata interfaces (e.g., HDT, File, SPARQL Endpoint, TPF, etc)
+- **Query Engine**, it use to execute SPARQL Query against the <a target="_blank" href="https://github.com/rdfhdt">RDF-HDT</a> data produced by <a target="_blank" href="https://github.com/sepses/VloGParser">Log Parser</a>. We used <a target="_blank" href="https://github.com/comunica/comunica">Comunica</a>, a modular query engine platform that supports querying over multiple heterogeneous linkeddata interfaces (e.g., HDT, File, SPARQL Endpoint, TPF, etc)
 - **Visualization**, this component presents the query results (e.g. HTML tabel).
 
 ## Configuration
