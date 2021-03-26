@@ -1,0 +1,15 @@
+PREFIX cl: <https://w3id.org/sepses/vocab/log/core#>
+PREFIX auth: <https://w3id.org/sepses/vocab/log/auth#>
+SELECT 
+ ?s ?timestamp 
+ ?message ?program  
+ ?pid ?logsource
+WHERE {
+ ?s   cl:message   ?message.
+ ?s   auth:programName   ?program.
+ ?s   cl:timestamp   ?timestamp.
+ ?s   auth:pid   ?pid.		
+ ?s   cl:hostName   ?logsource.		
+#FILTER regex(str(?message),'root')
+}
+

@@ -1,0 +1,17 @@
+PREFIX cl: <https://w3id.org/sepses/vocab/log/core#>
+PREFIX apache: <https://w3id.org/sepses/vocab/log/apache#>
+SELECT *
+WHERE {
+ ?s   cl:timestamp   ?timestamp.
+ ?s   apache:hasAgent   ?agent.
+ ?s   apache:hasAuth   ?auth.
+ ?s   apache:hasClient   ?clientip.
+ ?s   apache:hasHttpVersion   ?httpversion.
+ ?s   apache:hasIdent   ?ident.
+ ?s   apache:hasReferrer   ?referrer.
+ ?s   apache:hasRequest   ?request.
+ ?s   apache:hasRequestVerb   ?verb.
+ ?s   apache:hasResourceSize   ?bytes.
+ ?s   apache:hasResponse   ?response.
+}			
+ LIMIT 100

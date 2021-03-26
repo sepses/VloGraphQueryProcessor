@@ -1,0 +1,16 @@
+PREFIX cl: <https://w3id.org/sepses/vocab/log/core#>
+PREFIX ape: <https://w3id.org/sepses/vocab/log/apacheError#>
+SELECT
+  ?s ?timestamp
+  ?clientip ?clientport
+  ?loglevel ?message
+  ?pid 
+WHERE {
+ ?s   cl:timestamp   ?timestamp.
+ ?s   ape:clientIp  ?clientip.
+ ?s   ape:clientPort ?clientport.
+ ?s   ape:logLevel ?loglevel.
+ ?s   ape:message ?message.
+ ?s   ape:pid ?pid.
+}
+ LIMIT 5000
