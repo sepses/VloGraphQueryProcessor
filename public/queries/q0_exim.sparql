@@ -1,14 +1,21 @@
 PREFIX cl: <https://w3id.org/sepses/vocab/log/core#>
 PREFIX exim: <https://w3id.org/sepses/vocab/log/exim#>
-SELECT 
-  ?s 
-  ?exim_date  
-  ?exim_protocol 
+SELECT * 
 WHERE {
  ?s   cl:timestamp  ?exim_date.
- OPTIONAL {?s   exim:protocol ?exim_protocol}
+ ?s   cl:hasLogFamily  ?logFamily.
+ ?s   exim:pid  ?pid.
+ ?s   exim:qt  ?exim_date.
+ ?s   exim:remoteHost  ?remoteHost.
+ ?s   exim:interface  ?interface.
+ ?s   exim:messageSize  ?message.
+ ?s   exim:messageId  ?messageId.
+ ?s   exim:protocol  ?protocol.
+ ?s   exim:headerId  ?headerId.
+ ?s   exim:subject  ?subject.
+ #OPTIONAL {?s   exim:protocol ?exim_protocol}
 
 }
-#LIMIT 5000
+LIMIT 100
 
 
