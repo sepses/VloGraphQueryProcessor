@@ -1,15 +1,18 @@
 PREFIX cl: <https://w3id.org/sepses/vocab/log/core#>
 PREFIX auth: <https://w3id.org/sepses/vocab/log/auth#>
-SELECT 
- ?s ?timestamp 
- ?message ?program  
- ?pid ?logsource
+SELECT *
 WHERE {
  ?s   cl:message   ?message.
- ?s   auth:programName   ?program.
  ?s   cl:timestamp   ?timestamp.
- ?s   auth:pid   ?pid.		
- ?s   cl:hostName   ?logsource.		
+ ?s   auth:pid   ?pid.	
+ ?s   auth:hasProgram   ?program.	
+ ?s   auth:hasTargetHost   ?targetHost.	
+ #?s   auth:hasUser   ?user.	
+ #?s   auth:hasSourceIp   ?sourceIp.		
+ #?s   auth:hasSourcePort   ?sourcePort.		
+ #?s   auth:hasAuthEvent   ?authEvent.		
+ #?s   cl:hostName   ?hostName.		
+ #?s   cl:hasLogFamily ?logfamily.
 #FILTER regex(str(?message),'root')
 }
-
+LIMIT 100
