@@ -9,13 +9,13 @@ WHERE {
    ?s   au:pid     ?pi.   ?s   au:auid  ?aui. ?s   au:uid  ?ui.  
    #?s   au:gid  ?gi. ?s   au:egid  ?egi. ?s   au:euid     ?eui.  
    #?s   au:suid     ?sui. ?s   au:fsuid  ?fsui. ?s   au:sgid ?sgi. 
-   #s   au:fsgid ?fsgi. ?s   au:tty ?tty. ?s   au:ses ?ses. 
+   #?s   au:fsgid ?fsgi. ?s   au:tty ?tty. ?s   au:ses ?ses. 
    #?s   au:proctitle ?pro. ?s   au:item  ?it. ?s   au:inode  ?inode. 
    #?s   au:pathName  ?pn. ?s   au:dev  ?dev. ?s   au:mode  ?mode.
    #?s   au:ouid  ?oui. ?s   au:ogid  ?gi. ?s   au:rdev  ?rdev.     
    #?s   au:exe  ?ex.  ?s   au:comm  ?co. ?s   au:nameType  ?nameType. 
     
 
-} LIMIT 1
+} LIMIT 100
 
 
