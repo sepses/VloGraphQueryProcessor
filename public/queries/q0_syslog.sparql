@@ -1,9 +1,13 @@
 PREFIX cl: <https://w3id.org/sepses/vocab/log/core#>
-PREFIX auth: <https://w3id.org/sepses/vocab/log/sys#>
+PREFIX sys: <https://w3id.org/sepses/vocab/log/sys#>
 
-SELECT ?s ?timestamp ?message  WHERE {
+SELECT * WHERE {
  ?s   cl:message   ?message.
  ?s   cl:timestamp   ?timestamp.
- 
+ ?s   cl:hasLogFamily  ?logFamily.
+ ?s   sys:pid  ?pid.
+ ?s   sys:programName  ?programName.
+ ?s   cl:hostName ?hostName. 
 }
+LIMIT 100
 
