@@ -47,6 +47,8 @@ $ npm install
 $ npm start
 ```
 
+the engine will run at [http://localhost:3000](http://localhost:3000)
+
 ## License
 
 The Virtual Log Graph Query Processor is written by [Kabul Kurniawan](https://kabulkurniawan.github.io/) released under the [MIT license](http://opensource.org/licenses/MIT).
