@@ -6,15 +6,15 @@ WHERE {
    ?s   au:syscall  ?sys. ?s   au:success  ?suc.   ?s   au:exit  ?exi.
    ?s   au:a0     ?a0.   ?s   au:a1     ?a1. ?s   au:a2  ?a2.   
    ?s   au:a3  ?a3. ?s   au:items  ?it.   ?s   au:ppid     ?ppi.
-   ?s   au:pid     ?pi.   ?s   au:auid  ?aui. ?s   au:gid  ?gi.
-   ?s   au:euid     ?eui.   ?s   au:suid     ?sui. ?s   au:fsuid  ?fsui.
-   #?s   au:egid  ?egi. ?s   au:fsgid     ?fsgi. 
-   ?s   au:tty     ?tt. 
-   ?s   au:exe  ?ex.
-   #?s   au:sgid  ?sgid. 
-   #?s   au:ses  ?se.
-   #?s   au:comm  ?co. 
-   #?s   au:uid  ?ui.   
+   ?s   au:pid     ?pi.   ?s   au:auid  ?aui. ?s   au:uid  ?ui.  
+   #?s   au:gid  ?gi. ?s   au:egid  ?egi. ?s   au:euid     ?eui.  
+   #?s   au:suid     ?sui. ?s   au:fsuid  ?fsui. ?s   au:sgid ?sgi. 
+   #s   au:fsgid ?fsgi. ?s   au:tty ?tty. ?s   au:ses ?ses. 
+   #?s   au:proctitle ?pro. ?s   au:item  ?it. ?s   au:inode  ?inode. 
+   #?s   au:pathName  ?pn. ?s   au:dev  ?dev. ?s   au:mode  ?mode.
+   #?s   au:ouid  ?oui. ?s   au:ogid  ?gi. ?s   au:rdev  ?rdev.     
+   #?s   au:exe  ?ex.  ?s   au:comm  ?co. ?s   au:nameType  ?nameType. 
+    
 
 } LIMIT 1
 
